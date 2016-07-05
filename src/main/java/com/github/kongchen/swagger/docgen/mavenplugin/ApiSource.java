@@ -21,373 +21,373 @@ import java.util.Set;
  */
 public class ApiSource {
 
-    /**
-     * Java classes containing Swagger's annotation <code>@Api</code>, or Java packages containing those classes
-     * can be configured here.
-     */
-    @Parameter(required = true)
-    private List<String> locations;
+  /**
+   * Java classes containing Swagger's annotation <code>@Api</code>, or Java packages containing those classes
+   * can be configured here.
+   */
+  @Parameter(required = true)
+  private List<String> locations;
 
-    @Parameter
-    private Info info;
+  @Parameter
+  private Info info;
 
-    /**
-     * The basePath of your APIs.
-     */
-    @Parameter
-    private String basePath;
+  /**
+   * The basePath of your APIs.
+   */
+  @Parameter
+  private String basePath;
 
-    /**
-     * The host (name or ip) serving the API.
-     * This MUST be the host only and does not include the scheme nor sub-paths.
-     * It MAY include a port. If the host is not included, the host serving the documentation
-     * is to be used (including the port). The host does not support path templating.
-     */
-    private String host;
+  /**
+   * The host (name or ip) serving the API.
+   * This MUST be the host only and does not include the scheme nor sub-paths.
+   * It MAY include a port. If the host is not included, the host serving the documentation
+   * is to be used (including the port). The host does not support path templating.
+   */
+  private String host;
 
-    /*
-     * The transfer protocols of the API. Values MUST be from the list: "http", "https", "ws", "wss"
-     */
-    private List<String> schemes;
+  /*
+   * The transfer protocols of the API. Values MUST be from the list: "http", "https", "ws", "wss"
+   */
+  private List<String> schemes;
 
-    /**
-     * <code>templatePath</code> is the path of a hbs template file,
-     * see more details in next section.
-     * If you don't want to generate extra api documents, just don't set it.
-     */
-    @Parameter
-    private String templatePath;
+  /**
+   * <code>templatePath</code> is the path of a hbs template file,
+   * see more details in next section.
+   * If you don't want to generate extra api documents, just don't set it.
+   */
+  @Parameter
+  private String templatePath;
 
-    @Parameter
-    private String outputPath;
+  @Parameter
+  private String outputPath;
 
-    @Parameter
-    private String outputFormats;
+  @Parameter
+  private String outputFormats;
 
-    @Parameter
-    private String swaggerDirectory;
-    
-    @Parameter
-    private String swaggerFileName;
+  @Parameter
+  private String swaggerDirectory;
 
-    /**
-     * <code>attachSwaggerArtifact</code> triggers plugin execution to attach the generated
-     * swagger.json to Maven session for deployment purpose.  The attached classifier
-     * is the directory name of <code>swaggerDirectory</code>
-     */
-    @Parameter
-    private boolean attachSwaggerArtifact;
+  @Parameter
+  private String swaggerFileName;
 
-    @Parameter
-    private String swaggerUIDocBasePath;
+  /**
+   * <code>attachSwaggerArtifact</code> triggers plugin execution to attach the generated
+   * swagger.json to Maven session for deployment purpose.  The attached classifier
+   * is the directory name of <code>swaggerDirectory</code>
+   */
+  @Parameter
+  private boolean attachSwaggerArtifact;
 
-    @Parameter
-    private String modelSubstitute;
+  @Parameter
+  private String swaggerUIDocBasePath;
 
-    @Parameter
-    private String apiSortComparator;
+  @Parameter
+  private String modelSubstitute;
 
-    /**
-     * Information about swagger filter that will be used for prefiltering
-     */
-    @Parameter
-    private String swaggerInternalFilter;
+  @Parameter
+  private String apiSortComparator;
 
-    @Parameter
-    private String swaggerApiReader;
+  /**
+   * Information about swagger filter that will be used for prefiltering
+   */
+  @Parameter
+  private String swaggerInternalFilter;
 
-    @Parameter
-    private boolean springmvc;
+  @Parameter
+  private String swaggerApiReader;
 
-    @Parameter
-    private boolean useJAXBAnnotationProcessor;
+  @Parameter
+  private boolean springmvc;
 
-    @Parameter
-    private String swaggerSchemaConverter;
+  @Parameter
+  private boolean useJAXBAnnotationProcessor;
 
-    @Parameter
-    private List<SecurityDefinition> securityDefinitions;
+  @Parameter
+  private String swaggerSchemaConverter;
 
-    @Parameter
-    private List<String> typesToSkip = new ArrayList<String>();
+  @Parameter
+  private List<SecurityDefinition> securityDefinitions;
 
-    @Parameter
-    private List<String> apiModelPropertyAccessExclusions = new ArrayList<String>();
+  @Parameter
+  private List<String> typesToSkip = new ArrayList<String>();
 
-    @Parameter
-    private boolean jsonExampleValues = false;
+  @Parameter
+  private List<String> apiModelPropertyAccessExclusions = new ArrayList<String>();
 
-    @Parameter
-    private File descriptionFile;
+  @Parameter
+  private boolean jsonExampleValues = false;
 
-    @Parameter
-    private List<String> modelConverters;
+  @Parameter
+  private File descriptionFile;
 
-    public Set<Class<?>> getValidClasses(Class<? extends Annotation> clazz) {
-        Set<Class<?>> classes = new HashSet<Class<?>>();
-        if (getLocations() == null) {
-            Set<Class<?>> c = new Reflections("").getTypesAnnotatedWith(clazz);
-            classes.addAll(c);
-        } else {
-            for (String location : locations) {
-                Set<Class<?>> c = new Reflections(location).getTypesAnnotatedWith(clazz);
-                classes.addAll(c);
-            }
-        }
+  @Parameter
+  private List<String> modelConverters;
 
-        return classes;
+  public Set<Class<?>> getValidClasses(Class<? extends Annotation> clazz) {
+    Set<Class<?>> classes = new HashSet<Class<?>>();
+    if (getLocations() == null) {
+      Set<Class<?>> c = new Reflections("").getTypesAnnotatedWith(clazz);
+      classes.addAll(c);
+    } else {
+      for (String location : locations) {
+        Set<Class<?>> c = new Reflections(location).getTypesAnnotatedWith(clazz);
+        classes.addAll(c);
+      }
     }
 
-    public List<String> getApiModelPropertyAccessExclusions() {
-        return apiModelPropertyAccessExclusions;
-    }
+    return classes;
+  }
 
-    public void setApiModelPropertyExclusions(List<String> apiModelPropertyAccessExclusions) {
-        this.apiModelPropertyAccessExclusions = apiModelPropertyAccessExclusions;
-    }
+  public List<String> getApiModelPropertyAccessExclusions() {
+    return apiModelPropertyAccessExclusions;
+  }
 
-    public List<SecurityDefinition> getSecurityDefinitions() {
-        return securityDefinitions;
-    }
+  public void setApiModelPropertyExclusions(List<String> apiModelPropertyAccessExclusions) {
+    this.apiModelPropertyAccessExclusions = apiModelPropertyAccessExclusions;
+  }
 
-    public List<String> getTypesToSkip() {
-        return typesToSkip;
-    }
+  public List<SecurityDefinition> getSecurityDefinitions() {
+    return securityDefinitions;
+  }
 
-    public void setTypesToSkip(List<String> typesToSkip) {
-        this.typesToSkip = typesToSkip;
-    }
+  public List<String> getTypesToSkip() {
+    return typesToSkip;
+  }
 
-    public void setSecurityDefinitions(List<SecurityDefinition> securityDefinitions) {
-        this.securityDefinitions = securityDefinitions;
-    }
+  public void setTypesToSkip(List<String> typesToSkip) {
+    this.typesToSkip = typesToSkip;
+  }
 
-    public Info getInfo() {
-        if (info == null) {
-            setInfoFromAnnotation();
-        }
-        return info;
-    }
+  public void setSecurityDefinitions(List<SecurityDefinition> securityDefinitions) {
+    this.securityDefinitions = securityDefinitions;
+  }
 
-    private void setInfoFromAnnotation() {
-        Info resultInfo = new Info();
-        for (Class<?> aClass : getValidClasses(SwaggerDefinition.class)) {
-            SwaggerDefinition swaggerDefinition = AnnotationUtils.findAnnotation(aClass, SwaggerDefinition.class);
-            io.swagger.annotations.Info infoAnnotation = swaggerDefinition.info();
-            Info info = new Info().title(infoAnnotation.title())
-                    .description(infoAnnotation.description())
-                    .version(infoAnnotation.version())
-                    .termsOfService(infoAnnotation.termsOfService())
-                    .license(from(infoAnnotation.license()))
-                    .contact(from(infoAnnotation.contact()));
-            resultInfo.mergeWith(info);
-        }
-        info = resultInfo;
+  public Info getInfo() {
+    if (info == null) {
+      setInfoFromAnnotation();
     }
+    return info;
+  }
 
-    private Contact from(io.swagger.annotations.Contact contactAnnotation) {
-        return new Contact()
-                .name(contactAnnotation.name())
-                .email(contactAnnotation.email())
-                .url(contactAnnotation.url());
+  private void setInfoFromAnnotation() {
+    Info resultInfo = new Info();
+    for (Class<?> aClass : getValidClasses(SwaggerDefinition.class)) {
+      SwaggerDefinition swaggerDefinition = AnnotationUtils.findAnnotation(aClass, SwaggerDefinition.class);
+      io.swagger.annotations.Info infoAnnotation = swaggerDefinition.info();
+      Info info = new Info().title(infoAnnotation.title())
+        .description(infoAnnotation.description())
+        .version(infoAnnotation.version())
+        .termsOfService(infoAnnotation.termsOfService())
+        .license(from(infoAnnotation.license()))
+        .contact(from(infoAnnotation.contact()));
+      resultInfo.mergeWith(info);
     }
+    info = resultInfo;
+  }
 
-    private License from(io.swagger.annotations.License licenseAnnotation) {
-        return new License()
-                .name(licenseAnnotation.name())
-                .url(licenseAnnotation.url());
-    }
+  private Contact from(io.swagger.annotations.Contact contactAnnotation) {
+    return new Contact()
+      .name(contactAnnotation.name())
+      .email(contactAnnotation.email())
+      .url(contactAnnotation.url());
+  }
 
-    private void setBasePathFromAnnotation() {
-        for (Class<?> aClass : getValidClasses(SwaggerDefinition.class)) {
-            SwaggerDefinition swaggerDefinition = AnnotationUtils.findAnnotation(aClass, SwaggerDefinition.class);
-            basePath = swaggerDefinition.basePath();
-        }
-    }
+  private License from(io.swagger.annotations.License licenseAnnotation) {
+    return new License()
+      .name(licenseAnnotation.name())
+      .url(licenseAnnotation.url());
+  }
 
-    private void setHostFromAnnotation() {
-        for (Class<?> aClass : getValidClasses(SwaggerDefinition.class)) {
-            SwaggerDefinition swaggerDefinition = AnnotationUtils.findAnnotation(aClass, SwaggerDefinition.class);
-            host = swaggerDefinition.host();
-        }
+  private void setBasePathFromAnnotation() {
+    for (Class<?> aClass : getValidClasses(SwaggerDefinition.class)) {
+      SwaggerDefinition swaggerDefinition = AnnotationUtils.findAnnotation(aClass, SwaggerDefinition.class);
+      basePath = swaggerDefinition.basePath();
     }
+  }
 
-    public void setInfo(Info info) {
-        this.info = info;
+  private void setHostFromAnnotation() {
+    for (Class<?> aClass : getValidClasses(SwaggerDefinition.class)) {
+      SwaggerDefinition swaggerDefinition = AnnotationUtils.findAnnotation(aClass, SwaggerDefinition.class);
+      host = swaggerDefinition.host();
     }
+  }
 
-    public List<String> getLocations() {
-        return locations;
-    }
+  public void setInfo(Info info) {
+    this.info = info;
+  }
 
-    public void setLocations(List<String> locations) {
-        this.locations = locations;
-    }
+  public List<String> getLocations() {
+    return locations;
+  }
 
-    public String getTemplatePath() {
-        return templatePath;
-    }
+  public void setLocations(List<String> locations) {
+    this.locations = locations;
+  }
 
-    public void setTemplatePath(String templatePath) {
-        this.templatePath = templatePath;
-    }
+  public String getTemplatePath() {
+    return templatePath;
+  }
 
-    public String getOutputPath() {
-        return outputPath;
-    }
+  public void setTemplatePath(String templatePath) {
+    this.templatePath = templatePath;
+  }
 
-    public void setOutputPath(String outputPath) {
-        this.outputPath = outputPath;
-    }
+  public String getOutputPath() {
+    return outputPath;
+  }
 
-    public String getOutputFormats() {
-        return outputFormats;
-    }
+  public void setOutputPath(String outputPath) {
+    this.outputPath = outputPath;
+  }
 
-    public void setOutputFormats(String outputFormats) {
-        this.outputFormats = outputFormats;
-    }
+  public String getOutputFormats() {
+    return outputFormats;
+  }
 
-    public String getBasePath() {
-        if (basePath == null) {
-            setBasePathFromAnnotation();
-        }
-        return basePath;
-    }
+  public void setOutputFormats(String outputFormats) {
+    this.outputFormats = outputFormats;
+  }
 
-    public void setBasePath(String basePath) {
-        this.basePath = basePath;
+  public String getBasePath() {
+    if (basePath == null) {
+      setBasePathFromAnnotation();
     }
+    return basePath;
+  }
 
-    public String getSwaggerDirectory() {
-        return swaggerDirectory;
-    }
+  public void setBasePath(String basePath) {
+    this.basePath = basePath;
+  }
 
-    public void setSwaggerDirectory(String swaggerDirectory) {
-        this.swaggerDirectory = swaggerDirectory;
-    }
-    
-    public String getSwaggerFileName() {
-        return swaggerFileName;
-    }
+  public String getSwaggerDirectory() {
+    return swaggerDirectory;
+  }
 
-    public void setSwaggerFileName(String swaggerFileName) {
-        this.swaggerFileName = swaggerFileName;
-    }
+  public void setSwaggerDirectory(String swaggerDirectory) {
+    this.swaggerDirectory = swaggerDirectory;
+  }
 
-    public boolean isAttachSwaggerArtifact() {
-        return attachSwaggerArtifact;
-    }
+  public String getSwaggerFileName() {
+    return swaggerFileName;
+  }
 
-    public void setAttachSwaggerArtifact(boolean attachSwaggerArtifact) {
-        this.attachSwaggerArtifact = attachSwaggerArtifact;
-    }
+  public void setSwaggerFileName(String swaggerFileName) {
+    this.swaggerFileName = swaggerFileName;
+  }
 
-    public void setSwaggerUIDocBasePath(String swaggerUIDocBasePath) {
-        this.swaggerUIDocBasePath = swaggerUIDocBasePath;
-    }
+  public boolean isAttachSwaggerArtifact() {
+    return attachSwaggerArtifact;
+  }
 
-    public String getSwaggerUIDocBasePath() {
-        return swaggerUIDocBasePath;
-    }
+  public void setAttachSwaggerArtifact(boolean attachSwaggerArtifact) {
+    this.attachSwaggerArtifact = attachSwaggerArtifact;
+  }
 
-    public String getHost() {
-        if (host == null) {
-            setHostFromAnnotation();
-        }
-        return host;
-    }
+  public void setSwaggerUIDocBasePath(String swaggerUIDocBasePath) {
+    this.swaggerUIDocBasePath = swaggerUIDocBasePath;
+  }
 
-    public void setModelSubstitute(String modelSubstitute) {
-        this.modelSubstitute = modelSubstitute;
-    }
+  public String getSwaggerUIDocBasePath() {
+    return swaggerUIDocBasePath;
+  }
 
-    public String getSwaggerInternalFilter() {
-        return swaggerInternalFilter;
+  public String getHost() {
+    if (host == null) {
+      setHostFromAnnotation();
     }
+    return host;
+  }
 
-    public void setSwaggerInternalFilter(String swaggerInternalFilter) {
-        this.swaggerInternalFilter = swaggerInternalFilter;
-    }
+  public void setModelSubstitute(String modelSubstitute) {
+    this.modelSubstitute = modelSubstitute;
+  }
 
-    public String getSwaggerApiReader() {
-        return swaggerApiReader;
-    }
+  public String getSwaggerInternalFilter() {
+    return swaggerInternalFilter;
+  }
 
-    public void setSwaggerApiReader(String swaggerApiReader) {
-        this.swaggerApiReader = swaggerApiReader;
-    }
+  public void setSwaggerInternalFilter(String swaggerInternalFilter) {
+    this.swaggerInternalFilter = swaggerInternalFilter;
+  }
 
-    public String getApiSortComparator() {
-        return apiSortComparator;
-    }
+  public String getSwaggerApiReader() {
+    return swaggerApiReader;
+  }
 
-    public void setApiSortComparator(String apiSortComparator) {
-        this.apiSortComparator = apiSortComparator;
-    }
+  public void setSwaggerApiReader(String swaggerApiReader) {
+    this.swaggerApiReader = swaggerApiReader;
+  }
 
-    public void setHost(String host) {
-        this.host = host;
-    }
+  public String getApiSortComparator() {
+    return apiSortComparator;
+  }
 
-    public List<String> getSchemes() {
-        return schemes;
-    }
+  public void setApiSortComparator(String apiSortComparator) {
+    this.apiSortComparator = apiSortComparator;
+  }
 
-    public void setSchemes(List<String> schemes) {
-        this.schemes = schemes;
-    }
+  public void setHost(String host) {
+    this.host = host;
+  }
 
-    public String getModelSubstitute() {
-        return modelSubstitute;
-    }
+  public List<String> getSchemes() {
+    return schemes;
+  }
 
-    public boolean isSpringmvc() {
-        return springmvc;
-    }
+  public void setSchemes(List<String> schemes) {
+    this.schemes = schemes;
+  }
 
-    public void setSpringmvc(boolean springmvc) {
-        this.springmvc = springmvc;
-    }
+  public String getModelSubstitute() {
+    return modelSubstitute;
+  }
 
-    public String getSwaggerSchemaConverter() {
-        return swaggerSchemaConverter;
-    }
+  public boolean isSpringmvc() {
+    return springmvc;
+  }
 
-    public void setSwaggerSchemaConverter(String swaggerSchemaConverter) {
-        this.swaggerSchemaConverter = swaggerSchemaConverter;
-    }
+  public void setSpringmvc(boolean springmvc) {
+    this.springmvc = springmvc;
+  }
 
-    public boolean isJsonExampleValues() {
-        return jsonExampleValues;
-    }
+  public String getSwaggerSchemaConverter() {
+    return swaggerSchemaConverter;
+  }
 
-    public void setJsonExampleValues(boolean jsonExampleValues) {
-        this.jsonExampleValues = jsonExampleValues;
-    }
+  public void setSwaggerSchemaConverter(String swaggerSchemaConverter) {
+    this.swaggerSchemaConverter = swaggerSchemaConverter;
+  }
 
-    public boolean isUseJAXBAnnotationProcessor() {
-        return useJAXBAnnotationProcessor;
-    }
+  public boolean isJsonExampleValues() {
+    return jsonExampleValues;
+  }
 
-    public void setUseJAXBAnnotationProcessor(boolean useJAXBAnnotationProcessor) {
-        this.useJAXBAnnotationProcessor = useJAXBAnnotationProcessor;
-    }
+  public void setJsonExampleValues(boolean jsonExampleValues) {
+    this.jsonExampleValues = jsonExampleValues;
+  }
 
-    public File getDescriptionFile() {
-        return descriptionFile;
-    }
+  public boolean isUseJAXBAnnotationProcessor() {
+    return useJAXBAnnotationProcessor;
+  }
 
-    public void setDescriptionFile(File descriptionFile) {
-        this.descriptionFile = descriptionFile;
-    }
+  public void setUseJAXBAnnotationProcessor(boolean useJAXBAnnotationProcessor) {
+    this.useJAXBAnnotationProcessor = useJAXBAnnotationProcessor;
+  }
 
-    public List<String> getModelConverters() {
-        return modelConverters;
-    }
+  public File getDescriptionFile() {
+    return descriptionFile;
+  }
 
-    public void setModelConverters(List<String> modelConverters) {
-        this.modelConverters = modelConverters;
-    }
+  public void setDescriptionFile(File descriptionFile) {
+    this.descriptionFile = descriptionFile;
+  }
+
+  public List<String> getModelConverters() {
+    return modelConverters;
+  }
+
+  public void setModelConverters(List<String> modelConverters) {
+    this.modelConverters = modelConverters;
+  }
 }
 
